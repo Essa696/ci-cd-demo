@@ -20,39 +20,8 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-    
-    - name: Install jq
-      run: sudo apt-get install -y jq
 
-    # Step 3: Fetch and increment version
-    - name: Determine new version
-      id: version
-      run: |
-        # Fetch all existing tags from Docker Hub
-        tags=$(curl -s https://hub.docker.com/v2/repositories/${{ secrets.DOCKER_USERNAME }}/ci-cd-demo/tags | jq -r '.results[].name')
-
-        # Extract the highest version number
-        latest_version=$(echo "$tags" | grep -E '^[0-9]+(\.[0-9]+)?$' | sort -V | tail -n 1)
-
-        # If no version exists, start with 1
-        if [ -z "$latest_version" ]; then
-          new_version="1"
-        else
-          # Increment the patch version (e.g., 1 -> 1.1, 1.1 -> 1.2)
-          major=$(echo "$latest_version" | cut -d. -f1)
-          minor=$(echo "$latest_version" | cut -d. -f2)
-          if [ -z "$minor" ]; then
-            minor=1
-          else
-            minor=$((minor + 1))
-          fi
-          new_version="${major}.${minor}"
-        fi
-
-        echo "New version: $new_version"
-        echo "version=$new_version" >> $GITHUB_ENV
-
-    # Step 4: Build and push Docker image
+    # Step 3: Build and push Docker image
     - name: Build and push Docker image
       uses: docker/build-push-action@v4
       with:
