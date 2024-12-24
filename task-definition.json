@@ -1,0 +1,29 @@
+{
+    "family": "ci-cd-demo-task",
+    "networkMode": "awsvpc",
+    "containerDefinitions": [
+      {
+        "name": "ci-cd-demo-container",
+        "image": "essa69/ci-cd-demo:latest",
+        "essential": true,
+        "portMappings": [
+          {
+            "containerPort": 8000,
+            "hostPort": 8000
+          }
+        ],
+        "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+            "awslogs-group": "/ecs/ci-cd-demo",
+            "awslogs-region": "us-east-1",
+            "awslogs-stream-prefix": "ecs"
+          }
+        }
+      }
+    ],
+    "requiresCompatibilities": ["FARGATE"],
+    "cpu": "256",
+    "memory": "512",
+    "executionRoleArn": "arn:aws:iam::247154824056:role/ecsTaskExecutionRoleDocker"
+  }
