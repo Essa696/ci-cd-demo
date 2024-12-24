@@ -39,6 +39,9 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ap-southeast-2
 
+    - name: Debug file location
+      run: ls -l
+
     - name: Register ECS task definition
       run: |
         aws ecs register-task-definition \
