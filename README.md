@@ -11,3 +11,5 @@ Adding some more changes to the pipeline
 ----------- Deploying the app to AWS ECS ------------
 
 Updated the code for ECS for docker hub registry 
+
+Added CloudWatch logs to yml 
